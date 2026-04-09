@@ -1,9 +1,16 @@
 spring:
   application:
     name: store
+  datasource:
+    url: jdbc:mysql://localhost:3306/store?createDatabaseIfNotExist=true
+    username: root
+    password: mysqlpracticedb123
 stripe:
   apiUrl: https://api.stripe.com/v1
-  enabled: true
   timeout: 3000
+  enabled: true
   supported-currencies: USD,EUR,GBP
 payment-gateway: paypal
+mail:
+  host: https://smtp.gmail.com
+  port: 5761
