@@ -29,9 +29,14 @@ public class User {
     @Column(nullable = false, name = "password")
     private String password;
 
+    @OneToOne(mappedBy = "user")
+    private Profile profile;
+
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<Address> addresses = new ArrayList<>();
+
+
 
     public void addAddress(Address address) {
         addresses.add(address);
@@ -42,4 +47,6 @@ public class User {
         addresses.remove(address);
         address.setUser(null);
     }
+
+
 }
