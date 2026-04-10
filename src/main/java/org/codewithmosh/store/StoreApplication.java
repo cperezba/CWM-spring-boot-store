@@ -1,5 +1,6 @@
 package org.codewithmosh.store;
 
+import org.codewithmosh.store.entities.Address;
 import org.codewithmosh.store.entities.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,5 +19,19 @@ public class StoreApplication {
             .email("mosh@codewithmosh.com")
             .password("mosh123")
             .build();
+
+        var address = Address.builder()
+                .street("123 Main St")
+                .city("Anytown")
+                .state("CA")
+                .zip("12345")
+                .build();
+
+
+        //user.getAddresses().add(address);
+        //address.setUser(user);
+        user.addAddress(address);
+
+        System.out.println(user);
     }
 }
