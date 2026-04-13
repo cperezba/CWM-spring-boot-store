@@ -3,8 +3,8 @@ package org.codewithmosh.store.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Array;
+import java.util.*;
 
 @Setter
 @Getter
@@ -36,8 +36,6 @@ public class User {
     @Builder.Default
     private List<Address> addresses = new ArrayList<>();
 
-
-
     public void addAddress(Address address) {
         addresses.add(address);
         address.setUser(this);
@@ -48,5 +46,31 @@ public class User {
         address.setUser(null);
     }
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_tags",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @Builder.Default
+    private Set<Tag> tags = new HashSet<>();
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getUsers().add(this);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+        tag.getUsers().remove(this);
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "wishlist",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<Product> favoriteProducts = new HashSet<>();
 
 }

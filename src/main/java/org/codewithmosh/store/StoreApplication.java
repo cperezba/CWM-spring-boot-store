@@ -19,39 +19,12 @@ public class StoreApplication {
             .password("mosh123")
             .build();
 
-        var profile = Profile.builder()
-                .bio("I am a software developer")
+
+        var tag = Tag.builder()
+                .name("electronics")
                 .build();
 
-        var address = Address.builder()
-                .street("123 Main St")
-                .city("Anytown")
-                .state("CA")
-                .zip("12345")
-                .build();
-
-
-        //user.getAddresses().add(address);
-        //address.setUser(user);
-        user.addAddress(address);
-        user.setProfile(profile);
-        profile.setUser(user);
-
+        user.addTag(tag);
         System.out.println(user);
-
-
-        var category = Category.builder()
-                .name("Electronics")
-                .build();
-        var product = Product.builder()
-                .name("Laptop")
-                .price((long) 999.99)
-                .category(category)
-                .build();
-
-        category.getProducts().add(product);
-        product.setCategory(category);
-
-        System.out.println(product);
     }
 }

@@ -1,31 +1,38 @@
 package org.codewithmosh.store.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "products")
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name="price")
-    private Long price;
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price")
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    //@ManyToMany(mappedBy = "products")
+    //private List<User> users = new ArrayList<>();
+
 
 }
