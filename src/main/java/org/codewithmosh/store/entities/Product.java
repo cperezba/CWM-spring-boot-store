@@ -1,8 +1,7 @@
 package org.codewithmosh.store.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,6 +9,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "products")
 public class Product {
@@ -27,12 +29,12 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    //@ManyToMany(mappedBy = "products")
-    //private List<User> users = new ArrayList<>();
+    @ManyToMany(mappedBy = "wishList", cascade = CascadeType.REMOVE)
+    private List<User> users = new ArrayList<>();
 
 
 }
