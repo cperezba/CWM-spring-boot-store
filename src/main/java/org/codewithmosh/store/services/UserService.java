@@ -5,12 +5,15 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.codewithmosh.store.entities.*;
 import org.codewithmosh.store.repositories.*;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.codewithmosh.store.repositories.specifications.ProductSpec;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 
 @AllArgsConstructor
 @Service
@@ -110,6 +113,27 @@ public class UserService {
         products.forEach(System.out::println);
     }
 
+    public void fetchProductsByCriteria() {
+       var products = productRepository.findProductsByCriteria(null, BigDecimal.valueOf(5), BigDecimal.valueOf(15));
+       products.forEach(System.out::println);
+    }
+
+    public void fetchProductsBySpecifications(String name, BigDecimal minPrice, BigDecimal maxPrice) {
+        Specification<Product> spec = Specification.where((root, query, cb) -> null);
+
+        if (name != null) {
+            spec = spec.and(ProductSpec.hasName(name));
+        }
+        if (minPrice != null) {
+            spec = spec.and(ProductSpec.hasPriceGreaterThanOrEqualTo(minPrice));
+        }
+        if (maxPrice != null) {
+            spec = spec.and(ProductSpec.hasPriceLessThanOrEqualTo(maxPrice));
+        }
+
+        productRepository.findAll(spec).forEach(System.out::println);
+    }
+
     @Transactional
     public void fetchUsers() {
         var users = userRepository.findAllWithAddresses();
@@ -117,6 +141,28 @@ public class UserService {
             System.out.println(u);
             u.getAddresses().forEach(System.out::println);
         });
+    }
+
+    public void fetchSortedProducts() {
+        var sort = Sort.by("name").and(
+                Sort.by("price").descending()
+        );
+
+        productRepository.findAll(sort).forEach(System.out::println);
+    }
+
+    public void fetchPaginatedProducts(int pageNumber, int size) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
+        Page<Product> page = productRepository.findAll(pageRequest);
+
+        var products = page.getContent();
+        products.forEach(System.out::println);
+
+
+        var totalPages = page.getTotalPages();
+        var totalElements = page.getTotalElements();
+        System.out.println("Total Pages: " + totalPages);
+        System.out.println("Total Elements: " + totalElements);
     }
 
     public void showProfilesWithLoyaltyPointsGreaterThan(int loyaltyPoints) {

@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import java.math.BigDecimal;
+
 @SpringBootApplication
 public class StoreApplication {
 
@@ -14,6 +16,14 @@ public class StoreApplication {
 
       //service.showProfilesWithLoyaltyPointsGreaterThan(2);
 
-        service.fetchProducts();
+        //service.fetchProducts();
+
+//        service.fetchProductsByCriteria();
+
+//        service.fetchProductsBySpecifications("prod", BigDecimal.valueOf(1), null);
+
+//    service.fetchSortedProducts();
+
+    service.fetchPaginatedProducts(0, 10);
     }
 }
