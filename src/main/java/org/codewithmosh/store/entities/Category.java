@@ -28,6 +28,10 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private Set<Product> products = new HashSet<>();
 
+    public Category(byte id) {
+        this.id = id;
+    }
+
     public void addProduct(Product product) {
         products.add(product);
         product.setCategory(this);

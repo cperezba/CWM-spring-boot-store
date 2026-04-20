@@ -4,17 +4,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.codewithmosh.store.entities.*;
-import org.codewithmosh.store.repositories.AddressRepository;
-import org.codewithmosh.store.repositories.CategoryRepository;
-import org.codewithmosh.store.repositories.ProductRepository;
-import org.codewithmosh.store.repositories.UserRepository;
+import org.codewithmosh.store.repositories.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @Service
@@ -24,6 +20,7 @@ public class UserService {
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ProfileRepository profileRepository;
 
     @Transactional
     public void showEntityStates() {
@@ -92,6 +89,44 @@ public class UserService {
     public void manageProducts() {
         productRepository.deleteById(3L);
     }
+
+    @Transactional
+    public void updateProductPrices() {
+        productRepository.updatePriceByCategory(new BigDecimal("10.00"), (byte) 1);
+    }
+
+    @Transactional
+    public void fetchProducts() {
+        var product = new Product();
+        product.setName("Product 1");
+
+        var matcher = ExampleMatcher.matching()
+                .withIncludeNullValues()
+                .withIgnorePaths("id", "price")
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        var example = Example.of(product, matcher);
+        var products = productRepository.findAll(example);
+        products.forEach(System.out::println);
+    }
+
+    @Transactional
+    public void fetchUsers() {
+        var users = userRepository.findAllWithAddresses();
+        users.forEach(u -> {
+            System.out.println(u);
+            u.getAddresses().forEach(System.out::println);
+        });
+    }
+
+    public void showProfilesWithLoyaltyPointsGreaterThan(int loyaltyPoints) {
+        var profiles = userRepository.findByLoyaltyPointsGreaterThanOrderByUserEmail(loyaltyPoints);
+        profiles.forEach(u -> {
+            System.out.println("Profile Id: " + u.getId());
+            System.out.println("User Email: " + u.getEmail());
+        });
+    }
+
 
 
 }

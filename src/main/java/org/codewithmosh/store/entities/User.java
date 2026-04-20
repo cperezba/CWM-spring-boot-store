@@ -3,14 +3,15 @@ package org.codewithmosh.store.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
 @Entity
 @Table(name = "users")
@@ -73,4 +74,11 @@ public class User {
     )
     private Set<Product> wishList = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "name = " + name + ", " +
+                "email = " + email + " )";
+    }
 }
