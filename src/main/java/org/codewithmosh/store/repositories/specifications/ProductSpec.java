@@ -17,4 +17,8 @@ public class ProductSpec {
     public static Specification<Product> hasPriceLessThanOrEqualTo(BigDecimal price) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("price"), price);
     }
+
+    public static Specification<Product> hasCategory(String category) {
+        return (root, query, cb) -> cb.equal(root.get("category").get("name"), category);
+    }
 }

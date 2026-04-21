@@ -114,11 +114,11 @@ public class UserService {
     }
 
     public void fetchProductsByCriteria() {
-       var products = productRepository.findProductsByCriteria(null, BigDecimal.valueOf(5), BigDecimal.valueOf(15));
+       var products = productRepository.findProductsByCriteria(null, null, null, "Literature");
        products.forEach(System.out::println);
     }
 
-    public void fetchProductsBySpecifications(String name, BigDecimal minPrice, BigDecimal maxPrice) {
+    public void fetchProductsBySpecifications(String name, BigDecimal minPrice, BigDecimal maxPrice, String category) {
         Specification<Product> spec = Specification.where((root, query, cb) -> null);
 
         if (name != null) {
@@ -130,6 +130,10 @@ public class UserService {
         if (maxPrice != null) {
             spec = spec.and(ProductSpec.hasPriceLessThanOrEqualTo(maxPrice));
         }
+        if (category != null) {
+            spec = spec.and(ProductSpec.hasCategory(category));
+        }
+
 
         productRepository.findAll(spec).forEach(System.out::println);
     }

@@ -20,10 +20,10 @@ public class StoreApplication {
 
 //        service.fetchProductsByCriteria();
 
-//        service.fetchProductsBySpecifications("prod", BigDecimal.valueOf(1), null);
+        service.fetchProductsBySpecifications(null, null, null, "Literature");
 
 //    service.fetchSortedProducts();
 
-    service.fetchPaginatedProducts(0, 10);
+//    service.fetchPaginatedProducts(0, 10);
     }
 }
