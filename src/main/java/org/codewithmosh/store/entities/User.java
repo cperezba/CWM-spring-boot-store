@@ -79,6 +79,6 @@ public class User {
         return getClass().getSimpleName() + "(" +
                 "id = " + id + ", " +
                 "name = " + name + ", " +
-                "email = " + email + " )";
+                "email = " + email + ")";
     }
 }

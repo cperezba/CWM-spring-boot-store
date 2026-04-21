@@ -1,6 +1,5 @@
 package org.codewithmosh.store.repositories;
 
-import org.codewithmosh.store.dtos.ProductSummary;
 import org.codewithmosh.store.dtos.UserSummary;
 import org.codewithmosh.store.entities.User;
 import org.springframework.data.jpa.repository.EntityGraph;

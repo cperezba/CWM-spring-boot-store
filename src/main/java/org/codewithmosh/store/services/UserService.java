@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
-
 @AllArgsConstructor
 @Service
 public class UserService {
@@ -22,8 +20,6 @@ public class UserService {
     private final EntityManager entityManager;
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
-    private final ProfileRepository profileRepository;
 
     @Transactional
     public void showEntityStates() {
@@ -73,7 +69,6 @@ public class UserService {
                 .dateOfBirth(LocalDate.of(1990, 1, 1))
                 .build();
 
-
         user.addAddress(address);
         //user.setProfile(profile);
         userRepository.save(user);
@@ -86,7 +81,6 @@ public class UserService {
         user.removeAddress(address);
         userRepository.save(user);
     }
-
 
     @Transactional
     public void manageProducts() {
@@ -134,7 +128,6 @@ public class UserService {
             spec = spec.and(ProductSpec.hasCategory(category));
         }
 
-
         productRepository.findAll(spec).forEach(System.out::println);
     }
 
@@ -162,7 +155,6 @@ public class UserService {
         var products = page.getContent();
         products.forEach(System.out::println);
 
-
         var totalPages = page.getTotalPages();
         var totalElements = page.getTotalElements();
         System.out.println("Total Pages: " + totalPages);
@@ -176,7 +168,4 @@ public class UserService {
             System.out.println("User Email: " + u.getEmail());
         });
     }
-
-
-
 }
